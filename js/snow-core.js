@@ -91,9 +91,7 @@ $(document).ready(function () {
 	headerElement.innerText.slice(0, firstSpace);
 	headerElement.innerHTML = `<span class="unbold">${headerElement.innerText.slice(0, firstSpace)}</span>`+ ' ' + headerElement.innerText.slice(firstSpace);
 
-	var User;
-
-	if (!User) {
+	if (typeof(User) === "undefined") {
 		var jsonObj =
 			{
 				"interfaceLanguage":
@@ -132,13 +130,29 @@ $(document).ready(function () {
 				"endpointURL": "/change-language"
 			};
 	} else {
-		var jsonObj = User;
+		var jsonObj = JSON.parse(User);
 	}
 
 	const menuList = document.getElementsByClassName('qa-nav-main-list')[0];
 	let functionBar = document.createElement('LI');
 	functionBar.classList.add('qa-nav-main-item');
 	functionBar.classList.add('dropdown');
+
+	if (window.matchMedia('(max-width: 979px)').matches) {
+		let fBar = document.getElementById('functionBar');
+		let dropdown = document.getElementsByClassName('dropdown-content')[0];
+
+		let showDetails = false;
+		fBar.addEventListener('click', (e) => {
+			showDetails = !showDetails;
+			if (showDetails === true) {
+				dropdown.style.display = 'block';
+			}
+			else {
+				dropdown.style.display = 'none';
+			}
+		});
+	}
 
     let contentLanguageSelect = '';
     for (i in jsonObj.contentLanguage.available) {
@@ -236,22 +250,6 @@ $(document).ready(function () {
 		"</div>";
 
 	menuList.appendChild(functionBar);
-
-	if (window.matchMedia('(max-width: 979px)').matches) {
-		let fBar = document.getElementById('functionBar');
-		let dropdown = document.getElementsByClassName('dropdown-content')[0];
-
-		let showDetails = false;
-		fBar.addEventListener('click', (e) => {
-			showDetails = !showDetails;
-			if (showDetails === true) {
-				dropdown.style.display = 'block';
-			}
-			else {
-				dropdown.style.display = 'none';
-			}
-		});
-	}
 
 
 });
