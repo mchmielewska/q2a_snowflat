@@ -193,7 +193,7 @@ h1 a:active {
 }
 
 
-.booking {
+.booking, .book {
 	background-image: url("images/calendar.svg");
 	background-repeat: no-repeat;
 }

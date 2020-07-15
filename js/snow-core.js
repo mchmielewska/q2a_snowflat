@@ -87,9 +87,11 @@ $(document).ready(function () {
 	}
 
 	let headerElement = document.querySelector('.qa-main-heading h1');
-	let firstSpace = headerElement.innerText.indexOf(' ');
-	headerElement.innerText.slice(0, firstSpace);
-	headerElement.innerHTML = `<span class="unbold">${headerElement.innerText.slice(0, firstSpace)}</span>`+ ' ' + headerElement.innerText.slice(firstSpace);
+	if (headerElement) {
+		let firstSpace = headerElement.innerText.indexOf(' ');
+		headerElement.innerText.slice(0, firstSpace);
+		headerElement.innerHTML = `<span class="unbold">${headerElement.innerText.slice(0, firstSpace)}</span>`+ ' ' + headerElement.innerText.slice(firstSpace);
+	}
 
 	if (typeof(User) === "undefined") {
 		var jsonObj =
@@ -127,13 +129,14 @@ $(document).ready(function () {
 							}
 						]
 					},
-				"endpointURL": "/change-language"
+				"endpointUrl": "/change-language"
 			};
 	} else {
-		var jsonObj = JSON.parse(User);
+		var jsonObj = User;
 	}
 
 	const menuList = document.getElementsByClassName('qa-nav-main-list')[0];
+
 	let functionBar = document.createElement('LI');
 	functionBar.classList.add('qa-nav-main-item');
 	functionBar.classList.add('dropdown');
@@ -227,7 +230,7 @@ $(document).ready(function () {
         headersTranslated[2] = 'Service type';
     }
 
-	let formHTML = `<form action='${jsonObj.endpointURL}' method='POST' name='configuration'>`+
+	let formHTML = `<form action='${jsonObj.endpointUrl}' method='POST' name='configuration'>`+
 		`<h4>${headersTranslated[0]}</h4>` +
 		"<div class='flex-form'>" +
            interfaceLanguageSelect +
@@ -250,7 +253,6 @@ $(document).ready(function () {
 		"</div>";
 
 	menuList.appendChild(functionBar);
-
 
 });
 
