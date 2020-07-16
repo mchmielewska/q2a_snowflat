@@ -16,6 +16,8 @@
 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 	GNU General Public License for more details.
 */
+
+
 $(document).ready(function () {
 
 	/**
@@ -78,9 +80,11 @@ $(document).ready(function () {
 		}
 	});
 
+
 	if (window.matchMedia('(max-width: 979px)').matches) {
 		let username = document.querySelector('#qam-account-toggle.qam-logged-in');
-		if (username) {
+		let userImage = document.getElementsByClassName('qa-avatar-image')[0];
+		if (username && !userImage) {
 			let firstLetter = username.innerText.charAt(0);
 			username.innerText = firstLetter;
 		}
@@ -89,7 +93,6 @@ $(document).ready(function () {
 	let headerElement = document.querySelector('.qa-main-heading h1');
 	if (headerElement) {
 		let firstSpace = headerElement.innerText.indexOf(' ');
-		headerElement.innerText.slice(0, firstSpace);
 		headerElement.innerHTML = `<span class="unbold">${headerElement.innerText.slice(0, firstSpace)}</span>`+ ' ' + headerElement.innerText.slice(firstSpace);
 	}
 
@@ -140,22 +143,6 @@ $(document).ready(function () {
 	let functionBar = document.createElement('LI');
 	functionBar.classList.add('qa-nav-main-item');
 	functionBar.classList.add('dropdown');
-
-	if (window.matchMedia('(max-width: 979px)').matches) {
-		let fBar = document.getElementById('functionBar');
-		let dropdown = document.getElementsByClassName('dropdown-content')[0];
-
-		let showDetails = false;
-		fBar.addEventListener('click', (e) => {
-			showDetails = !showDetails;
-			if (showDetails === true) {
-				dropdown.style.display = 'block';
-			}
-			else {
-				dropdown.style.display = 'none';
-			}
-		});
-	}
 
     let contentLanguageSelect = '';
     for (i in jsonObj.contentLanguage.available) {
@@ -247,12 +234,39 @@ $(document).ready(function () {
 		"</form>";
 
 	functionBar.innerHTML =
-		`<a id='functionBar' class='qa-nav-main-link' href='#'>${languageBar}</a>` +
+		`<span id='functionBar' class='qa-nav-main-link'>${languageBar}</span>` +
 		"<div class='dropdown-content'>" +
 			formHTML +
 		"</div>";
 
 	menuList.appendChild(functionBar);
 
+	if (window.matchMedia('(max-width: 979px)').matches) {
+		let fBar = document.getElementById('functionBar');
+		let dropdown = document.getElementsByClassName('dropdown-content')[0];
+
+		let showDetails = false;
+		fBar.addEventListener('click', (e) => {
+			showDetails = !showDetails;
+			if (showDetails === true) {
+				dropdown.style.display = 'block';
+			}
+			else {
+				dropdown.style.display = 'none';
+			}
+		});
+	}
+
+	if (document.getElementsByClassName('qa-part-q-view').length) {
+		let heading = document.getElementsByClassName('qa-main-heading')[0];
+		heading.classList.add('question');
+	}
+
+	if (document.getElementsByClassName('qa-template-favorites').length) {
+		let favourites = document.getElementsByClassName('qa-q-favorited');
+		for (i = 0; i<favourites.length; i++) {
+			(favourites[i]).classList.add('border-none');
+		}
+	}
 });
 
